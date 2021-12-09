@@ -1,12 +1,3 @@
-/*jslint browser: true, undef: true, eqeqeq: true, nomen: true, white: true */
-/*global window: false, document: false */
-
-/*
- * fix looped audio
- * add fruits + levels
- * fix what happens when a ghost is eaten (should go back to base)
- * do proper ghost mechanics (blinky/wimpy etc)
- */
 
 var NONE        = 4,
     UP          = 3,
@@ -160,27 +151,27 @@ Pacman.Ghost = function (game, map, colour) {
         var high = game.getTick() % 10 > 5 ? 3  : -3;
         var low  = game.getTick() % 10 > 5 ? -3 : 3;
 
-        ctx.fillStyle = getColour();
-        ctx.beginPath();
+        ctx.fillStyle = getColour(); // 
+        ctx.beginPath(); // Crea un nuevo trazo, una vez creado los comandos de dibujo futuros son aplicados dentro.
 
-        ctx.moveTo(left, base);
+        ctx.moveTo(left, base); // Mueve la pluma a las coordenadas especificadas (x,y).
 
         ctx.quadraticCurveTo(left, top, left + (s/2),  top);
         ctx.quadraticCurveTo(left + s, top, left+s,  base);
         
-        // Wavy things at the bottom
-        ctx.quadraticCurveTo(tl-(inc*1), base+high, tl - (inc * 2),  base);
+        
+        ctx.quadraticCurveTo(tl-(inc*1), base+high, tl - (inc * 2),  base); //Dibuja una curva cuadrática de Béizer (cp1x, cp1y,x,y) (controlPoint = cp)
         ctx.quadraticCurveTo(tl-(inc*3), base+low, tl - (inc * 4),  base);
         ctx.quadraticCurveTo(tl-(inc*5), base+high, tl - (inc * 6),  base);
         ctx.quadraticCurveTo(tl-(inc*7), base+low, tl - (inc * 8),  base); 
         ctx.quadraticCurveTo(tl-(inc*9), base+high, tl - (inc * 10), base); 
 
-        ctx.closePath();
-        ctx.fill();
+        ctx.closePath(); // Cierra el trazo abierto con beginPath
+        ctx.fill(); // Dibuja una forma solida rellenando el área del trazo.
 
         ctx.beginPath();
         ctx.fillStyle = "#FFF";
-        ctx.arc(left + 6,top + 6, s / 6, 0, 300, false);
+        ctx.arc(left + 6,top + 6, s / 6, 0, 300, false); // Dibuja un arco (x ,y, radio, startAngle, endAngle, anticlockwise)
         ctx.arc((left + s) - 6,top + 6, s / 6, 0, 300, false);
         ctx.closePath();
         ctx.fill();
@@ -192,14 +183,14 @@ Pacman.Ghost = function (game, map, colour) {
         off[UP]    = [0, -f];
         off[DOWN]  = [0, f];
 
-        ctx.beginPath();
+        ctx.beginPath(); 
         ctx.fillStyle = "#000";
         ctx.arc(left+6+off[direction][0], top+6+off[direction][1], 
                 s / 15, 0, 300, false);
         ctx.arc((left+s)-6+off[direction][0], top+6+off[direction][1], 
                 s / 15, 0, 300, false);
-        ctx.closePath();
-        ctx.fill();
+        ctx.closePath(); 
+        ctx.fill(); // Dibuja una forma solida rellenando el área del trazo.
 
     };
 
@@ -470,7 +461,7 @@ Pacman.User = function (game, map) {
         return {"start":0, "end":2, "direction": false};
     };
 
-    function drawDead(ctx, amount) { 
+    function drawDead(ctx, amount) { //Dibujando Pacman muerto
 
         var size = map.blockSize, 
             half = size / 2;
@@ -479,7 +470,7 @@ Pacman.User = function (game, map) {
             return;
         }
 
-        ctx.fillStyle = "#FFFF00";
+        ctx.fillStyle = "#D4AA4A";
         ctx.beginPath();        
         ctx.moveTo(((position.x/10) * size) + half, 
                    ((position.y/10) * size) + half);
@@ -491,12 +482,12 @@ Pacman.User = function (game, map) {
         ctx.fill();    
     };
 
-    function draw(ctx) { 
+    function draw(ctx) { // Dibujando Pacman Vivo 
 
         var s     = map.blockSize, 
             angle = calcAngle(direction, position);
 
-        ctx.fillStyle = "#FFFF00";
+        ctx.fillStyle = "#D4AA4A";
 
         ctx.beginPath();        
 
@@ -507,7 +498,7 @@ Pacman.User = function (game, map) {
                 ((position.y/10) * s) + s / 2,
                 s / 2, Math.PI * angle.start, 
                 Math.PI * angle.end, angle.direction); 
-        
+
         ctx.fill();    
     };
     
@@ -574,7 +565,7 @@ Pacman.Map = function (size) {
                 if (p.move) {
                     ctx.moveTo(p.move[0] * blockSize, p.move[1] * blockSize);
                 } else if (p.line) {
-                    ctx.lineTo(p.line[0] * blockSize, p.line[1] * blockSize);
+                    ctx.lineTo(p.line[0] * blockSize, p.line[1] * blockSize); // Dibuja una línea desde ña posición actual del dibujo a la posición específicada por x e y.
                 } else if (p.curve) {
                     ctx.quadraticCurveTo(p.curve[0] * blockSize, 
                                          p.curve[1] * blockSize,
@@ -612,7 +603,7 @@ Pacman.Map = function (size) {
                     ctx.beginPath();
 
                     ctx.fillStyle = "#000";
-		            ctx.fillRect((j * blockSize), (i * blockSize), 
+		            ctx.fillRect((j * blockSize), (i * blockSize), // fillReact dibuja un rectángula relleno
                                  blockSize, blockSize);
 
                     ctx.fillStyle = "#FFF";
