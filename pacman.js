@@ -34,9 +34,6 @@ Pacman.Ghost = function (game, map, colour) {
         };
     };
 
-    /* Collision detection(walls) is done when a ghost lands on an
-     * exact block, make sure they dont skip over it 
-     */
     function addBounded(x1, x2) { 
         var rem    = x1 % 10, 
             result = rem + x2;
@@ -151,7 +148,7 @@ Pacman.Ghost = function (game, map, colour) {
         var high = game.getTick() % 10 > 5 ? 3  : -3;
         var low  = game.getTick() % 10 > 5 ? -3 : 3;
 
-        ctx.fillStyle = getColour(); // 
+        ctx.fillStyle = getColour(); // Establece el color
         ctx.beginPath(); // Crea un nuevo trazo, una vez creado los comandos de dibujo futuros son aplicados dentro.
 
         ctx.moveTo(left, base); // Mueve la pluma a las coordenadas especificadas (x,y).
@@ -493,7 +490,8 @@ Pacman.User = function (game, map) {
 
         ctx.moveTo(((position.x/10) * s) + s / 2,
                    ((position.y/10) * s) + s / 2);
-        
+
+
         ctx.arc(((position.x/10) * s) + s / 2,
                 ((position.y/10) * s) + s / 2,
                 s / 2, Math.PI * angle.start, 
